@@ -15,25 +15,43 @@ const StringEditor = () => {
     }, [])
 
     const stringLength = async() => {
-        await axios.post('http://localhost:5000/string/length', text1)
-        .then((res) => {
-            setTextLength(res.data);
-        });
+        try {
+            const res = await axios.post('http://localhost:5000/string/length', {'text': text1}, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            setTextLength(res.data.result);
+        } catch (error) {
+            console.error(error);
+        }
     }
 
 
     const smallToBig = async() => {
-        await axios.post('http://localhost:5000/string/changebig', text2)   //그냥 백엔드 단에서 모든 문자열을 대문자로 바꾸고 반환, toUpperCase()
-        .then((res) => {
-            setChangeCase(res.data);
-        });
+        try {
+            const res = await axios.post('http://localhost:5000/string/changelarge', {'text': text2}, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            setChangeCase(res.data.result);
+        } catch (error) {
+            console.error(error);
+        }    
     }
 
     const bigToSmall = async() => {
-        await axios.post('http://localhost:5000/string/changesmall', text2)  //toLowerCase()
-        .then((res) => {
-            setChangeCase(res.data);
+        try {
+        const res = await axios.post('http://localhost:5000/string/changesmall', {'text': text2}, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
         });
+        setChangeCase(res.data.result);
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     return (

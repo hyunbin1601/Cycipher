@@ -15,17 +15,31 @@ const XorEditor = () => {
     }, [])
 
     const xorHexCalculate = async() => {
-        await axios.post('http://localhost:5000/xor/binary', hexString)
-        .then((res) => {
-            setXorHex(res.data);
-        });
+        try {
+            const res = await axios.post('http://localhost:5000/xor/hex', hexString, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            setXorHex(res.data.result);
+        }
+        catch (error) {
+            console.error(error);
+        }
     }
 
     const xorBinCalculate = async() => {
-        await axios.post('http://localhost:5000/xor/hex', binString)
-        .then((res) => {
-            setXorBin(res.data);
-        });
+        try {
+            const res = await axios.post('http://localhost:5000/xor/binary', binString, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            setXorBin(res.data.result);
+        }
+        catch (error) {
+            console.error(error);
+        }
     }
 
     return (

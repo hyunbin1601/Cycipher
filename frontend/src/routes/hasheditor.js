@@ -16,18 +16,29 @@ const HashEditor = () => {
     }, [])
 
     const sha256Hash = async() => {
-        await axios.post('http://localhost:5000/hash/sha256', text1)
-        .then((res) => {
-            setShaString(res.data);
-        });
+        try {
+            const res = await axios.post('http://localhost:5000/hash/sha256', {'hash1': text1}, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            setShaString(res.data.result);
+        } catch (error) {
+            console.error(error);
+        }
     }
 
-
     const md5Hash = async() => {
-        await axios.post('http://localhost:5000/hash/md5', text2)
-        .then((res) => {
-            setMdString(res.data);
-        });
+        try {
+            const res = await axios.post('http://localhost:5000/hash/md5', {'hash2': text2}, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            setMdString(res.data.result);
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     return (

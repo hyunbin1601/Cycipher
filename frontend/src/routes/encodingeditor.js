@@ -15,18 +15,30 @@ const EncodingEditor = () => {
     }, [])
 
     const encodingText = async() => {
-        await axios.post('http://localhost:5000/b64/encode', plainText)
-        .then((res) => {
-            setEncodeText(res.data);
-        });
+        try {
+            const res = await axios.post('http://localhost:5000/b64/encode', {'b64EncodeString': plainText}, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            setEncodeText(res.data.result);
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     const decodingText = async() => {
-        await axios.post('http://localhost:5000/b64/decode', encodedText)
-        .then((res) => {
-            setDecodeText(res.data);
-        });
-    }
+        try {
+            const res = await axios.post('http://localhost:5000/b64/decode', {'b64EncodeString': encodedText}, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            setDecodeText(res.data.result);
+            } catch (error) {
+                console.error(error);
+            }
+        }
 
     return (
         <>
